@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>be48287e-c221-42ea-ae11-66301794302a</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningLevel>1</WarningLevel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20200619055021_tracker and project table changes.cs" />
+    <Compile Remove="Migrations\20200619055021_tracker and project table changes.Designer.cs" />
+    <Compile Remove="Migrations\20200619062026_tracker and project table changes.cs" />
+    <Compile Remove="Migrations\20200619062026_tracker and project table changes.Designer.cs" />
+    <Compile Remove="Migrations\20200701234310_Converted Rates to Decimal.cs" />
+    <Compile Remove="Migrations\20200701234310_Converted Rates to Decimal.Designer.cs" />
+    <Compile Remove="Migrations\20200702010535_Converted Rates to Decimal.cs" />
+    <Compile Remove="Migrations\20200702010535_Converted Rates to Decimal.Designer.cs" />
+    <Compile Remove="Migrations\20200702011303_Add TaskRates ProjectModel as decimal.cs" />
+    <Compile Remove="Migrations\20200702011303_Add TaskRates ProjectModel as decimal.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="BuildBundlerMinifier" Version="3.2.447" />
+    <PackageReference Include="DataTables.Queryable" Version="1.7.3" />
+    <PackageReference Include="jquery.datatables" Version="1.10.15" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.4" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
+
+
+</Project>

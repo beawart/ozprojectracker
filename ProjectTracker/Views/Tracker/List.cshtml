@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Tracker List</h1>
+@Html.ActionLink("New Tracker", "New")
+<table id="trackers" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Project Type</th>
+            <th>Count</th>
+            <th>Created On</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#trackers").dataTable({
+                "processing": true,
+                "ajax": {
+                    "url": "/api/tracker",
+                    "dataSrc": ""
+                },
+                "columns": [
+                    {
+                        "data": "Id",
+                        render: function (data, type, tracker) {
+                            return "<a href='/tracker/edit/" + tracker.id + "'>" + tracker.id + "</a>"
+                        }
+                    },
+                    { "data": "projectType.name" },
+                    { "data": "count" },
+                    {
+                        "data": "createdOn",
+                        render: function (d) {
+                            return moment(d).format("DD-MM-YYYY HH:mm:ss")
+                        }
+
+
+                    },
+                    {
+                        "data": "Id",
+                        render: function (data, type, tracker) {
+                            return "<button data-tracker-id='" + tracker.id + "' class='btn-link js-delete'>Delete</button>"
+                        }
+                    }
+                ],
+                "searching": false,
+                "ordering": true,
+                "paging": true,
+                "order": [[0, "desc"]]
+            });
+            $("#trackers").on("click",
+                ".js-delete",
+                function () {
+                    var button = $(this);
+                    bootbox.confirm("Do you really want to delete the tracker!?",
+                        function (result) {
+                            if (result) {
+                                $.ajax({
+                                    url: "/api/tracker/" + button.attr("data-tracker-id"),
+                                    method: "DELETE",
+                                    success: function () {
+                                        table.row(button.parents("tr").remove()).draw();
+                                    }
+
+                                });
+                            }
+                        });
+                });
+        });
+    </script>
+}
+

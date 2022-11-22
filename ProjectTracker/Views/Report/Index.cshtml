@@ -1,0 +1,58 @@
+﻿
+@{
+    ViewData["Title"] = "MonthEarning";
+}
+
+<h1>MonthEarning</h1>
+<table id="MonthEarnings" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Month</th>
+            <th>Year</th>
+            <th>Month-ForOrdering</th>
+            <th>Earning</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#MonthEarnings").dataTable({
+                "processing": true,
+                "ajax": {
+                    "url": "/report/MonthEarning",
+                    "dataSrc": ""
+                },
+                "columns": [
+                    {
+                        "data": "month",
+                        render: function (d, type, row) {
+                            return moment().month(d - 1).format("MMM") + ' - ' + row["year"];
+                        }
+                    },
+                    {
+                        "data": "year",
+                        "visible": false
+                    },
+                    {
+                        "data": "month",
+                        "visible": false
+                    },
+                    {
+                        "data": "earning",
+                        render: function (d) {
+                            return "$" + d;
+                        }
+                    }
+                ],
+                "searching": false,
+                "order": [[2, "asc"]],
+                //"ordering": true,
+                "paging": true
+            });
+        });
+    </script>
+}

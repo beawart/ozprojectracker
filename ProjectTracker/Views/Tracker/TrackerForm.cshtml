@@ -1,0 +1,86 @@
+﻿@model ProjectTracker.ViewModels.TrackerFormViewModel
+@{
+    ViewData["Title"] = "New";
+}
+
+
+<h1>@Model.Title</h1>
+@using (Html.BeginForm("Save", "Tracker"))
+{
+    @Html.ValidationSummary(true, "Please fix the following errors:");
+<div class="form-group">
+    @Html.LabelFor(m => m.ProjectTypeId)
+    <select id="ProjectTypeDD" name="@Html.NameFor(x => x.ProjectTypeId)" class="form-control" data-val-required="The Project Types field is required.">
+        <option value="">Select Project</option>
+        @foreach (var project in Model.Projects)
+        {
+            <option value="@project.Id" data-rate="@project.TaskRate"
+                    selected="@((Model.ProjectTypeId == project.Id) ? "selected" : null)">
+                @project.Name
+            </option>
+        }
+    </select>
+    @Html.ValidationMessageFor(m => m.ProjectTypeId)
+
+</div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Count)
+        <div class="qty">
+            <span class="minus bg-dark button">-</span>
+            @Html.TextBoxFor(m => m.Count, new { @class = "form-group" })
+            <span class="plus bg-dark button">+</span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label id="Rate"></label>
+    </div>
+    <input type="submit" class="btn btn-primary" value="Save" />
+    @Html.HiddenFor(m => m.Id);
+    @Html.AntiForgeryToken();
+}
+
+@section scripts
+{
+    <script>
+        $(function () {
+
+            var projectTypeDD = $("#ProjectTypeDD");
+            $SelectedRate = $("option[selected]").data("rate");
+            $CountTextValue = $("#Count").val();
+            $("#Rate").text("Earning: $" + $CountTextValue * $SelectedRate);
+
+            projectTypeDD.change(function () {
+                $("#ProjectTypeDD").find('option').removeAttr("selected");
+                $($("option")[projectTypeDD.prop('selectedIndex')]).attr("selected", "selected");
+            });
+
+            $(".button").on("click", function () {
+
+                var $button = $(this);
+                var oldValue = $button.parent().find("input").val();
+
+                if ($button.text() == "+") {
+                    var newVal = parseFloat(oldValue) + 1;
+                } else {
+                    // Don't allow decrementing below zero
+                    if (oldValue > 0) {
+                        var newVal = parseFloat(oldValue) - 1;
+                    } else {
+                        newVal = 0;
+                    }
+                }
+
+                $button.parent().find("input").val(newVal);
+                $SelectedRate = $("option[selected]").data("rate");
+                $("#Rate").text("Earning: $" + newVal * $SelectedRate);
+            });
+
+            $("#Count").focusout(function () {
+                $SelectedRate = $("option[selected]").data("rate");
+                $CountTextValue = $("#Count").val();
+                $("#Rate").text("Earning: $" + $CountTextValue * $SelectedRate);
+            });
+        });
+
+    </script>
+}

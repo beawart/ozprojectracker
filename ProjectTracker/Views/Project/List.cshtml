@@ -1,0 +1,76 @@
+﻿@model IEnumerable<Project>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Project List</h1>
+@Html.ActionLink("New Project", "New")
+<table id="projects" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>CreatedOn</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#projects").dataTable({
+                "processing": true,
+                "ajax": {
+                    "url": "/api/project",
+                    "dataSrc": ""
+                },
+                "columns": [
+                    {
+                        "data": "name",
+                        render: function (data, type, project) {
+                            return "<a href='/project/edit/" + project.id + "'>" + project.name + "</a>"
+                        }
+                    },
+                    { "data": "description" },
+                    {
+                        "data": "createdOn",
+                        render: function (d) {
+                            return moment(d).format("DD-MM-YYYY HH:mm:ss")
+                        }
+                    },
+                    {
+                        "data": "name",
+                        render: function (data, type, project) {
+                            return "<button data-project-id='" + project.id + "' class='btn-link js-delete'>Delete</button>"
+                        }
+                    }
+                ],
+                "searching": true,
+                "ordering": true,
+                "paging": true
+             });
+            $("#projects").on("click",
+                ".js-delete",
+                function () {
+                    var button = $(this);
+                    bootbox.confirm("Do you really want to delete the project!?",
+                        function (result) {
+                            if (result) {
+                                $.ajax({
+                                    url: "/api/project/" + button.attr("data-project-id"),
+                                    method: "DELETE",
+                                    success: function () {
+                                        table.row(button.parents("tr").remove()).draw();
+                                    }
+
+                                });
+                            }
+                        });
+                });
+        });
+    </script>
+}
