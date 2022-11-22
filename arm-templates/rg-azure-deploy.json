@@ -4,11 +4,11 @@
     "parameters": {
         "rgName": {
             "type":"string",
-            "defaultValue":"rg-cars-island-dev"
+            "defaultValue":"rg-projectTracker"
         },
         "location": {
             "type": "string",
-            "defaultValue": "westeurope"
+            "defaultValue": "eastus"
         }
     },
     "functions": [],
@@ -18,7 +18,7 @@
             "name": "[parameters('rgName')]",
             "type": "Microsoft.Resources/resourceGroups",
             "apiVersion": "2019-10-01",
-            "location": "westeurope",
+            "location": "eastus",
             "dependsOn": [
             ]
         }
