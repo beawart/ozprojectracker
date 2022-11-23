@@ -1,27 +1,24 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
         "rgName": {
             "type":"string",
-            "defaultValue":"rg-cars-island-dev"
+            "defaultValue":"rg-projectTracker-Prod"
         },
         "location": {
             "type": "string",
-            "defaultValue": "westeurope"
+            "defaultValue": "eastus"
         }
     },
-    "functions": [],
-    "variables": {},
     "resources": [
         {
             "name": "[parameters('rgName')]",
             "type": "Microsoft.Resources/resourceGroups",
             "apiVersion": "2019-10-01",
-            "location": "westeurope",
+            "location": "[parameters('location')]",
             "dependsOn": [
             ]
         }
-    ],
-    "outputs": {}
+    ]
 }
